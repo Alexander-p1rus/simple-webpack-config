@@ -1,3 +1,5 @@
-import {func} from './test'
+export function randomFunc(arg:number){
+    return arg
+}
 
-func([34,43])
+console.log(213123)

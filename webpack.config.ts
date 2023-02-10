@@ -1,23 +1,33 @@
 import webpack = require("webpack");
 import {extensionsConfig} from "./webpack_configuration/extenstionsConfig/extensionsConfig";
 import {rulesConfig} from "./webpack_configuration/rulesConfig/rulesConfig";
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import path from "path";
+import {EnvVariables} from "./webpack_configuration/types/types";
+import {buildConfig} from "./webpack_configuration/buildConfig/buildConfig";
 
-const path = require('path')
 
+module.exports = (env: EnvVariables) => {
+    const htmlPath = path.resolve(__dirname, 'public', 'index.html')
+    const entryPath = path.resolve(__dirname, 'src', 'index.ts')
+    const outputPath = path.resolve(__dirname, 'bundle',)
 
-const config: webpack.Configuration = {
-    mode: 'development',
-    entry: path.resolve(__dirname, 'src', 'index.ts'),
-    output: {
-        clean: true,
-        filename: '[name].[hash].js',
-        path: path.resolve(__dirname, 'bundle'),
-    },
-    module: {
-        rules: rulesConfig()
-    },
-    resolve: extensionsConfig()
-};
+    const isDev = env.mode === 'development'
 
-module.exports = config
+    const mode = env.mode === 'development'
+        ? 'development'
+        : 'production'
+
+    const config = buildConfig({
+        path: {
+            entry: entryPath,
+            html: htmlPath,
+            output: outputPath
+        },
+        isDev: isDev,
+        mode: mode
+    })
+
+    return config
+}
 
