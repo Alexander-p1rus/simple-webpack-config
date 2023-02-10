@@ -1,4 +1,4 @@
-/.idea
-/node-modules/
-.env
-/bundle/
+.idea
+/node_modules
+
+/bundle
